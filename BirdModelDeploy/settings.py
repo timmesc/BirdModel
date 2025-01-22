@@ -30,7 +30,10 @@ PORT = os.getenv('PORT', 8000)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'timmesc.pythonanywhere.com']
+
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'birdmodel-production.up.railway.app']
+
+CSRF_TRUSTED_ORGINS = ['https://birdmodel-production.up.railway.app']
 
 
 # Application definition

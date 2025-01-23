@@ -142,6 +142,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CSRF_COOKIE_SECURE = True  # Set to True in production
 SESSION_COOKIE_SECURE = True  # Set to True in production
 SECURE_SSL_REDIRECT = True  # Set to True in production
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')  # Added for Railway
 
 
 SECURE_HSTS_SECONDS = 31536000  # 1 year

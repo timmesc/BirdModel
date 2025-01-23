@@ -28,12 +28,12 @@ load_dotenv()
 SECRET_KEY = os.environ.get('SECRET_KEY')
 PORT = os.getenv('PORT', 8000)
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'birdmodel-production.up.railway.app']
 
-CSRF_TRUSTED_ORGINS = ['https://birdmodel-production.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://birdmodel-production.up.railway.app']  # Note "ORIGINS" not "ORGINS"
 
 
 # Application definition
@@ -49,6 +49,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -136,9 +138,15 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Security settings
-CSRF_COOKIE_SECURE = False  # Set to True in production
-SESSION_COOKIE_SECURE = False  # Set to True in production
-SECURE_SSL_REDIRECT = False  # Set to True in production
+CSRF_COOKIE_SECURE = True  # Set to True in production
+SESSION_COOKIE_SECURE = True  # Set to True in production
+SECURE_SSL_REDIRECT = True  # Set to True in production
+
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # File upload settings
 FILE_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10MB

@@ -7,7 +7,7 @@ from django.http import HttpResponse
 from django.urls import reverse
 
 # Initialize the Roboflow API and load the model
-rf = Roboflow(api_key="ICjdbqnKJzd2t3bHCbTo")
+rf = Roboflow(api_key=os.getenv('ROBOFLOW_API_KEY'))
 project = rf.workspace().project("bird-species-detector")
 model = project.version(851).model
 

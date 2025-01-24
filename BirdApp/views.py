@@ -5,19 +5,13 @@ import os
 from django.conf import settings
 from django.http import HttpResponse
 from django.urls import reverse
-import logging
 
-try:
-    logger.error("Starting Roboflow initialization")
-    rf = Roboflow(api_key=os.getenv('ROBOFLOW_API_KEY'))
-    logger.error("Roboflow API initialized")
-    project = rf.workspace().project("bird-species-detector")
-    logger.error("Project loaded")
-    model = project.version(851).model
-    logger.error("Model loaded")
-except Exception as e:
-    logger.error(f"Roboflow initialization error: {str(e)}")
-    
+
+# Initialize the Roboflow API and load the model
+rf = Roboflow(api_key=os.getenv('ROBOFLOW_API_KEY'))
+project = rf.workspace().project("bird-species-detector")
+model = project.version(851).model
+
 def predictor(request):
     return render(request, 'main.html')
 
@@ -25,23 +19,22 @@ def formInfo(request):
     if request.method == 'POST' and request.FILES['bird_image']:
         try:
             # Create media directory if it doesn't exist
-            logger.error("Starting image processing")
+            
             os.makedirs(settings.MEDIA_ROOT, exist_ok=True)
             
             # Get the uploaded image
             bird_image = request.FILES['bird_image']
-            logger.error("Image received")
+            
 
             # Save the image temporarily on the server
             img_path = os.path.join(settings.MEDIA_ROOT, 'temp_bird_image.jpg')
             with open(img_path, 'wb+') as f:
                 for chunk in bird_image.chunks():
                     f.write(chunk)
-            logger.error("Image saved")
+     
             
             # Use Roboflow to make the prediction
             prediction_result = model.predict(img_path)
-            logger.error("Prediction made")
             prediction_json = prediction_result.json()
 
             # Extract the prediction details
@@ -69,7 +62,6 @@ def formInfo(request):
                 'predicted_image': predicted_image_path
             })
         except Exception as e:
-            logger.error(f"Detailed error: {str(e)}")
             return render(request, 'main.html', {'error': f'An error occurred: {str(e)}'})
 
     return render(request, 'main.html', {'error': 'Please upload an image.'})

@@ -7,10 +7,12 @@ from django.http import HttpResponse
 from django.urls import reverse
 import logging
 
-logger = logging.getLogger(__name__)
+logger.error("Application starting")
 
-# Initialize the Roboflow API and load the model
+logger.error("Starting Roboflow initialization")
 rf = Roboflow(api_key=os.getenv('ROBOFLOW_API_KEY'))
+logger.error("Roboflow API initialized")
+
 project = rf.workspace().project("bird-species-detector")
 model = project.version(851).model
 

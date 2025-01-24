@@ -7,12 +7,11 @@ from django.http import HttpResponse
 from django.urls import reverse
 import logging
 
+logger = logging.getLogger('BirdApp')
+# Then rest of imports and logger calls
 logger.error("Application starting")
-
 logger.error("Starting Roboflow initialization")
 rf = Roboflow(api_key=os.getenv('ROBOFLOW_API_KEY'))
-logger.error("Roboflow API initialized")
-
 project = rf.workspace().project("bird-species-detector")
 model = project.version(851).model
 

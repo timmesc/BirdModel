@@ -1,1 +1,1 @@
-web: export PORT=${PORT:-8080} && python manage.py collectstatic --no-input && python manage.py migrate && gunicorn BirdModelDeploy.wsgi:application --bind 0.0.0.0:${PORT} --log-level debug --timeout 120
+web: gunicorn BirdModelDeploy.wsgi:application --bind 0.0.0.0:$PORT

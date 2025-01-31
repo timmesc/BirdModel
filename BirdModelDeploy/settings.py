@@ -33,7 +33,7 @@ IS_PRODUCTION = ENVIRONMENT == 'production'
 DEBUG = not IS_PRODUCTION
 
 # Host Settings
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'birdmodel-production.up.railway.app']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1','0.0.0.0',  'birdmodel-production.up.railway.app']
 
 # Security Settings
 if IS_PRODUCTION:
@@ -55,7 +55,8 @@ else:
     SESSION_COOKIE_SECURE = False
     CSRF_TRUSTED_ORIGINS = [
         'http://localhost:8080',
-        'http://127.0.0.1:8080'
+        'http://127.0.0.1:8080',
+        '0.0.0.0'
     ]
 
 

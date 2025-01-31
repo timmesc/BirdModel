@@ -24,18 +24,39 @@ load_dotenv()
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
+
+# Environment Settings
+ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
 SECRET_KEY = os.environ.get('SECRET_KEY')
-PORT = os.getenv('PORT', 8080)
-# SECURITY WARNING: don't run with debug turned on in production!
+IS_PRODUCTION = ENVIRONMENT == 'production'
+DEBUG = not IS_PRODUCTION
+PORT = int(os.getenv('PORT', 8080))  # Convert to integer
 
-DEBUG = os.getenv('DEBUG', 'False') == 'True'
-
+# Host Settings
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'birdmodel-production.up.railway.app']
 
-CSRF_TRUSTED_ORIGINS = ['https://birdmodel-production.up.railway.app']  # Note "ORIGINS" not "ORGINS"
+# Security Settings
+if IS_PRODUCTION:
+    SECURE_SSL_REDIRECT = True
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_TRUSTED_ORIGINS = [
+        'https://birdmodel-production.up.railway.app',
+    ]
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_HSTS_SECONDS = 31536000  # 1 year
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+else:
+    SECURE_SSL_REDIRECT = False
+    CSRF_COOKIE_SECURE = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_TRUSTED_ORIGINS = [
+        'http://localhost:8080',
+        'http://127.0.0.1:8080'
+    ]
 
-# Application definition
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -139,13 +160,4 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10MBpyt
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Security settings
-CSRF_COOKIE_SECURE = True  # Set to True in production
-SESSION_COOKIE_SECURE = True  # Set to True in production
-SECURE_SSL_REDIRECT = True  # Set to True in production
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-SECURE_HSTS_SECONDS = 31536000  # 1 year
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
 

@@ -26,7 +26,7 @@ load_dotenv()
 
 
 # Environment Settings
-ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
+ENVIRONMENT = os.getenv('ENVIRONMENT', 'production')
 SECRET_KEY = os.environ.get('SECRET_KEY')
 IS_PRODUCTION = ENVIRONMENT == 'production'
 DEBUG = not IS_PRODUCTION

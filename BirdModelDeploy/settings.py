@@ -31,13 +31,13 @@ ENVIRONMENT = os.getenv('ENVIRONMENT', 'production')
 SECRET_KEY = os.environ.get('SECRET_KEY')
 IS_PRODUCTION = ENVIRONMENT == 'production'
 DEBUG = not IS_PRODUCTION
-PORT = int(os.getenv('PORT', 8080))  # Convert to integer
 
 # Host Settings
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'birdmodel-production.up.railway.app']
 
 # Security Settings
 if IS_PRODUCTION:
+    PORT = int(os.getenv('PORT', 8000))  
     SECURE_SSL_REDIRECT = True
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
@@ -49,6 +49,7 @@ if IS_PRODUCTION:
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
 else:
+    PORT = int(os.getenv('PORT', 8080))  # Convert to integer
     SECURE_SSL_REDIRECT = False
     CSRF_COOKIE_SECURE = False
     SESSION_COOKIE_SECURE = False

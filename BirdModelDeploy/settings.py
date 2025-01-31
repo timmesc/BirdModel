@@ -16,7 +16,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 from dotenv import load_dotenv
 import os
-import dj_database_url
+
 
 load_dotenv()
 
@@ -106,7 +106,6 @@ WSGI_APPLICATION = 'BirdModelDeploy.wsgi.application'
 
 
 DATABASES = {
-    'default': dj_database_url.config(default=os.getenv("DATABASE_URL"))
 }
 
 

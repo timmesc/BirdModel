@@ -1,1 +1,1 @@
-web: gunicorn BirdModelDeploy.wsgi:application --bind 0.0.0.0:8000
+web: gunicorn BirdModelDeploy.wsgi:application --bind 0.0.0.0:$PORT
